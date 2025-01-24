@@ -1,0 +1,26 @@
+services:
+  odoo:
+    image: odoo:18.0-20250123
+    env_file: .env
+    ports:
+      - "8069:8069"
+    depends_on:
+      - db
+    volumes:
+      - ./odoo-web-data:/var/lib/odoo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.odoo.rule=Host(`HOSTNAME`)"
+  db:
+    image: postgres:17.2-alpine
+    env_file: .env
+    volumes:
+      - ./odoo-db-data:/var/lib/postgresql/data/pgdata
+  traefik:
+    image: traefik:v3.3
+    command: --api.insecure=true --providers.docker --accesslog=true
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
