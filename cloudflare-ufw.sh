@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Fetch latest IP range lists (both v4 and v6) from Cloudflare
+# Fetch latest IP range lists (IPv4) from Cloudflare
 curl -s https://www.cloudflare.com/ips-v4 -o /tmp/cf_ips
-echo "" >> /tmp/cf_ips
-curl -s https://www.cloudflare.com/ips-v6 >> /tmp/cf_ips
 
 # Get docker traefik IP
 container_name=$(docker ps | awk 'NR>1 && $NF ~ /traefik/ {print $NF}')
