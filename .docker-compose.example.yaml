@@ -11,11 +11,15 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.odoo.rule=Host(`HOSTNAME`)"
+    networks:
+      - traefik-net
   db:
     image: postgres:17.2-alpine
     env_file: .env
     volumes:
       - ./odoo-db-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - traefik-net
   traefik:
     image: traefik:v3.3
     command: --api.insecure=true --providers.docker --accesslog=true
@@ -24,3 +28,8 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-net
+networks:
+  traefik-net:
+    external: true
