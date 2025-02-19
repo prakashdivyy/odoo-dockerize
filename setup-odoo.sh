@@ -20,6 +20,9 @@ sed -i "s/PASSWORD=.*/PASSWORD=${password}/" .env
 # Replace HOSTNAME in docker-compose.yml
 sed -i 's/HOSTNAME/'$HOSTNAME'/g' docker-compose.yaml
 
+# Create docker network for traefik
+docker network create traefik-net
+
 echo "Starting Docker containers..."
 docker-compose up -d
 
