@@ -20,6 +20,10 @@ sed -i "s/PASSWORD=.*/PASSWORD=${password}/" .env
 # Replace HOSTNAME in docker-compose.yml
 sed -i 's/HOSTNAME/'$HOSTNAME'/g' docker-compose.yaml
 
+# Replace DATABASE_NAME in docker-compose.yml
+postgres_db=$(cat .env | grep POSTGRES_DB | cut -d '=' -f 2-)
+sed -i 's/DATABASE_NAME/'$postgres_db'/g' docker-compose.yaml
+
 # Create docker network for traefik
 docker network create traefik-net
 

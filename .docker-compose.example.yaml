@@ -13,6 +13,8 @@ services:
       - "traefik.http.routers.odoo.rule=Host(`HOSTNAME`)"
     networks:
       - traefik-net
+    # Uncomment the following line to run migrations for new versions of Odoo
+    # command: odoo -u all -d DATABASE_NAME
   db:
     image: postgres:17.2-alpine
     env_file: .env
